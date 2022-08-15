@@ -4,3 +4,4 @@ this one into the challenge website: FqKabHDQIsNR
 
 Executing self-test...
 
+nonzero reg
