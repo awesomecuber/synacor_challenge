@@ -1,4 +1,4 @@
-use std::io::stdin;
+use std::{fs, io};
 
 use anyhow::Result;
 use computer::Computer;
@@ -9,6 +9,13 @@ mod computer;
 
 fn main() {
     let mut comp = Computer::from_bytes(include_bytes!("../challenge.bin"));
+
+    let input_file = fs::read_to_string("input.txt").unwrap_or_default();
+    for line in input_file.lines() {
+        if !line.starts_with('#') {
+            comp.add_input(line.as_bytes());
+        }
+    }
 
     comp.read_instructions_until_terminate();
     println!("{}", comp.get_output_as_string());
@@ -45,6 +52,6 @@ fn main() {
 
 fn get_line() -> Result<Vec<u8>> {
     let mut line = "".to_string();
-    stdin().read_line(&mut line)?;
+    io::stdin().read_line(&mut line)?;
     Ok(line.trim_end().try_into()?)
 }
